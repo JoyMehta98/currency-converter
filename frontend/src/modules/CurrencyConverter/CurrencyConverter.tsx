@@ -103,7 +103,7 @@ export const CurrencyConverter = () => {
 
       {result && (
         <div>
-          <Typography variant="lead">{result}</Typography>
+          <Typography variant="lead">Converted Amount: {result}</Typography>
         </div>
       )}
     </div>
