@@ -20,7 +20,7 @@ export class ErrorBoundary extends React.Component<
 
   render(): React.ReactNode {
     if (this.state.hasError) {
-      return "Something Went Wring";
+      return "Something Went Wrong";
     }
 
     return this.props.children;

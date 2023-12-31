@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "npm run build && concurrently -k \"tsc -w\" \"nodemon dist/index.js\"",
+    "dev": "NODE_PATH=./src ts-node-dev ./src/index.ts",
     "build": "npm run lint && tsc",
     "lint": "eslint '**/*.ts'",
     "test": "npm run build && jest"
@@ -27,13 +27,14 @@
     "nodemon": "^3.0.2",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "axios": "^1.6.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5"
   }
 }

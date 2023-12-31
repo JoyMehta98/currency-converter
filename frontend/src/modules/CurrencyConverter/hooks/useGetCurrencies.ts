@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getCurrencies } from "../api";
 import { CurrencyResponse } from "../types";
 
@@ -10,7 +10,6 @@ export const useGetCurrencies = () => {
     const call = async () => {
       try {
         const { data } = await getCurrencies();
-
         setCurrencies(data);
       } catch (e) {
         console.error(e);
@@ -22,8 +21,14 @@ export const useGetCurrencies = () => {
     call();
   }, []);
 
+  const defaultCurrency = useMemo(
+    () => currencies.find((currency) => currency.sign === "$"),
+    [currencies]
+  );
+
   return {
     currencies,
+    defaultCurrency,
     isCurrenciesLoading: isLoading,
   };
 };
