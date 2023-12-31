@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useGetCryptoCurrencies } from "./hooks/useGetCryptoCurrencies";
 import { useGetCurrencies } from "./hooks/useGetCurrencies";
 import { Typography } from "uicore/Typography";
-import { Form } from "uicore/Form";
 import { Select } from "uicore/Select";
 import { Button } from "uicore/Button";
 import { Input } from "uicore/Input";
+import { usePostPriceConversion } from "./hooks/usePostPriceConversion";
 
 interface ConverterFormState {
-  crypto: string | undefined;
-  currency: string | undefined;
+  id: string | undefined;
+  convert_id: string | undefined;
   amount: number;
 }
 
@@ -18,10 +18,12 @@ export const CurrencyConverter = () => {
     useGetCurrencies();
   const { isCryptoLoading, cryptos } = useGetCryptoCurrencies();
   const [formState, setFormState] = useState<ConverterFormState>({
-    crypto: undefined,
-    currency: undefined,
+    id: undefined,
+    convert_id: undefined,
     amount: 0,
   });
+
+  const { getPrice, result } = usePostPriceConversion();
 
   const handleFormState = (name: string, value: string) => {
     setFormState({
@@ -34,7 +36,7 @@ export const CurrencyConverter = () => {
     if (defaultCurrency) {
       setFormState({
         ...formState,
-        currency: String(defaultCurrency.id),
+        convert_id: String(defaultCurrency.id),
       });
     }
 
@@ -45,10 +47,15 @@ export const CurrencyConverter = () => {
     return "Loading....";
   }
 
+  const handleSubmit = () => {
+    // @ts-expect-error cdjc
+    getPrice(formState);
+  };
+
   return (
     <div className="w-[400px]">
       <Typography variant="h3">Crypto Currency Converter</Typography>
-      <Form handleSubmit={() => {}} className="flex flex-col gap-5 pt-10">
+      <div className="flex flex-col gap-5 pt-10">
         <Select
           label="From"
           size="md"
@@ -57,9 +64,9 @@ export const CurrencyConverter = () => {
             label: crypto.name,
             value: String(crypto.id),
           }))}
-          name="crypto"
-          value={formState.crypto}
-          onChange={(e) => handleFormState("crypto", e as string)}
+          name="id"
+          value={formState.id}
+          onChange={(e) => handleFormState("id", e as string)}
         />
 
         <Select
@@ -70,9 +77,9 @@ export const CurrencyConverter = () => {
             label: `${currency.name} (${currency.symbol})`,
             value: String(currency.id),
           }))}
-          name="currency"
-          value={formState.currency}
-          onChange={(e) => handleFormState("currency", e as string)}
+          name="convert_id"
+          value={formState.convert_id}
+          onChange={(e) => handleFormState("convert_id", e as string)}
         />
         <Input
           label="Amount"
@@ -84,15 +91,22 @@ export const CurrencyConverter = () => {
           onChange={(e) => handleFormState("amount", e.target.value)}
         />
         <div className="flex justify-center">
-          <Button type="submit" id="convert" size="md" className="w-[100px] ">
+          <Button
+            id="convert"
+            size="md"
+            className="w-[100px]"
+            onClick={handleSubmit}
+          >
             Convert
           </Button>
         </div>
-      </Form>
-
-      <div>
-        <Typography variant="lead">Result</Typography>
       </div>
+
+      {result && (
+        <div>
+          <Typography variant="lead">{result}</Typography>
+        </div>
+      )}
     </div>
   );
 };
