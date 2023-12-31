@@ -93,7 +93,6 @@ export const CurrencyConverter = () => {
           <Button
             id="convert"
             size="md"
-            className="w-[100px]"
             onClick={handleSubmit}
             disabled={buttonDisabled}
           >
