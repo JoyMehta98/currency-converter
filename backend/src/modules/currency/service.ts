@@ -9,13 +9,21 @@ export const axiosInstance = axios.create({
 });
 
 export const getCryptoCurrencies = async () => {
-  const response = await axiosInstance.get("cryptocurrency/listings/new");
+  const response = await axiosInstance.get("v1/cryptocurrency/listings/new");
 
   return response.data;
 };
 
 export const getSupportedCurrencies = async () => {
-  const response = await axiosInstance.get("fiat/map");
+  const response = await axiosInstance.get("v1/fiat/map");
+
+  return response.data;
+};
+
+export const getConvertedPrice = async (params) => {
+  const response = await axiosInstance.get("v2/tools/price-conversion", {
+    params,
+  });
 
   return response.data;
 };
