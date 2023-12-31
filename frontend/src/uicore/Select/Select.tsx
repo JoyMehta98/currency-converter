@@ -23,6 +23,7 @@ export const Select = ({
   name,
   className,
 }: Props) => (
+  // @ts-expect-error error from material-tailwind
   <MuiSelect
     variant={variant}
     size={size}

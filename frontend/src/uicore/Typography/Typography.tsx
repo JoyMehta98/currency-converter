@@ -13,6 +13,7 @@ export const Typography = ({
   className,
   onClick,
 }: TypographyProps) => (
+  // @ts-expect-error error from material-tailwind
   <MuiTypography
     key={key}
     variant={variant}

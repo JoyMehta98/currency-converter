@@ -26,6 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     }: Props,
     ref
   ) => (
+    // @ts-expect-error error from material-tailwind
     <MuiButton
       id={id}
       onClick={onClick}
