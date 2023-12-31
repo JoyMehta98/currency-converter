@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getCryptoCurrencies } from "../api";
 import { CryptoCurrencyResponse } from "../types";
 
@@ -22,8 +22,17 @@ export const useGetCryptoCurrencies = () => {
     call();
   }, []);
 
+  const cryptoOptions = useMemo(
+    () =>
+      cryptos.map((crypto) => ({
+        label: `${crypto.name} (${crypto.symbol})`,
+        value: String(crypto.id),
+      })),
+    [cryptos]
+  );
+
   return {
-    cryptos,
+    cryptoOptions,
     isCryptoLoading: isLoading,
   };
 };

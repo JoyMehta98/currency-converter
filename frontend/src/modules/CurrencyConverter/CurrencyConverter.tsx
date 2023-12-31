@@ -6,6 +6,7 @@ import { Select } from "uicore/Select";
 import { Button } from "uicore/Button";
 import { Input } from "uicore/Input";
 import { usePostPriceConversion } from "./hooks/usePostPriceConversion";
+import { Loader } from "uicore/Loader";
 
 interface ConverterFormState {
   id: string | undefined;
@@ -14,9 +15,9 @@ interface ConverterFormState {
 }
 
 export const CurrencyConverter = () => {
-  const { isCurrenciesLoading, currencies, defaultCurrency } =
+  const { isCurrenciesLoading, defaultCurrency, currencyOptions } =
     useGetCurrencies();
-  const { isCryptoLoading, cryptos } = useGetCryptoCurrencies();
+  const { isCryptoLoading, cryptoOptions } = useGetCryptoCurrencies();
   const [formState, setFormState] = useState<ConverterFormState>({
     id: undefined,
     convert_id: undefined,
@@ -44,39 +45,37 @@ export const CurrencyConverter = () => {
   }, [defaultCurrency]);
 
   if (isCurrenciesLoading || isCryptoLoading) {
-    return "Loading....";
+    return <Loader />;
   }
 
+  const buttonDisabled =
+    !formState.convert_id || !formState.id || formState.amount <= 0;
+
   const handleSubmit = () => {
-    // @ts-expect-error cdjc
-    getPrice(formState);
+    if (!buttonDisabled) {
+      // @ts-expect-error already validated
+      getPrice(formState);
+    }
   };
 
   return (
-    <div className="w-[400px]">
+    <div className="w-[400px] h-[400px] absolute top-0 bottom-0 right-0 left-0 m-auto">
       <Typography variant="h3">Crypto Currency Converter</Typography>
       <div className="flex flex-col gap-5 pt-10">
         <Select
           label="From"
           size="md"
           variant="static"
-          options={cryptos.map((crypto) => ({
-            label: crypto.name,
-            value: String(crypto.id),
-          }))}
+          options={cryptoOptions}
           name="id"
           value={formState.id}
           onChange={(e) => handleFormState("id", e as string)}
         />
-
         <Select
           label="To"
           size="md"
           variant="static"
-          options={currencies.map((currency) => ({
-            label: `${currency.name} (${currency.symbol})`,
-            value: String(currency.id),
-          }))}
+          options={currencyOptions}
           name="convert_id"
           value={formState.convert_id}
           onChange={(e) => handleFormState("convert_id", e as string)}
@@ -96,6 +95,7 @@ export const CurrencyConverter = () => {
             size="md"
             className="w-[100px]"
             onClick={handleSubmit}
+            disabled={buttonDisabled}
           >
             Convert
           </Button>

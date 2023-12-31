@@ -26,8 +26,17 @@ export const useGetCurrencies = () => {
     [currencies]
   );
 
+  const currencyOptions = useMemo(
+    () =>
+      currencies.map((currency) => ({
+        label: `${currency.name} (${currency.symbol})`,
+        value: String(currency.id),
+      })),
+    [currencies]
+  );
+
   return {
-    currencies,
+    currencyOptions,
     defaultCurrency,
     isCurrenciesLoading: isLoading,
   };

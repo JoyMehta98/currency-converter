@@ -17,44 +17,18 @@ export const Select = ({
   options,
   variant,
   size,
-  color,
   label,
-  error,
-  success,
-  arrow,
   value,
   onChange,
-  selected,
-  offset,
-  dismiss,
-  animate,
-  lockScroll,
-  containerProps,
-  labelProps,
-  menuProps,
-  disabled,
   name,
   className,
 }: Props) => (
   <MuiSelect
     variant={variant}
     size={size}
-    color={color}
     label={label}
-    error={error}
-    success={success}
-    arrow={arrow}
     value={value}
     onChange={onChange}
-    selected={selected}
-    offset={offset}
-    dismiss={dismiss}
-    animate={animate}
-    lockScroll={lockScroll}
-    containerProps={containerProps}
-    labelProps={labelProps}
-    menuProps={menuProps}
-    disabled={disabled}
     name={name}
     className={className}
   >
