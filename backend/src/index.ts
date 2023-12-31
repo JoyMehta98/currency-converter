@@ -1,11 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { config } from "dotenv";
+import { currencyRouter } from "modules/currency/router";
+import { appConfig } from "config/app";
 
-config();
-
-const PORT = process.env.PORT || 8080;
-const ENV = process.env.NODE_ENV || "production";
+const { port, nodeEnv } = appConfig;
 
 const app: Express = express();
 
@@ -16,8 +14,10 @@ app.get("/", (_req: Request, res: Response) => {
   res.status(200).send("Welcome");
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${ENV} environment`);
+app.use("/currencies", currencyRouter);
+
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${port} in ${nodeEnv} environment`);
 });
 
 export { app as default, server };
