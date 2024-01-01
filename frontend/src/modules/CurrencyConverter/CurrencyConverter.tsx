@@ -59,7 +59,10 @@ export const CurrencyConverter = () => {
   };
 
   return (
-    <div className="w-[400px] h-[400px] absolute top-0 bottom-0 right-0 left-0 m-auto">
+    <div
+      className="w-[400px] h-[400px] absolute top-0 bottom-0 right-0 left-0 m-auto"
+      data-testid="converter-form"
+    >
       <Typography variant="h3">Crypto Currency Converter</Typography>
       <div className="flex flex-col gap-5 pt-10">
         <Select
@@ -93,6 +96,7 @@ export const CurrencyConverter = () => {
           <Button
             id="convert"
             size="md"
+            data-testid="convert-button"
             onClick={handleSubmit}
             disabled={buttonDisabled}
           >

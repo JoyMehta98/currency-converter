@@ -1,13 +1,10 @@
-import React from "react";
+import { Component, type ReactNode } from "react";
 
 interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-export class ErrorBoundary extends React.Component<
-  AnyType,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<AnyType, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
     hasError: false,
   };
@@ -18,7 +15,7 @@ export class ErrorBoundary extends React.Component<
     }));
   }
 
-  render(): React.ReactNode {
+  render(): ReactNode {
     if (this.state.hasError) {
       return "Something Went Wrong";
     }
