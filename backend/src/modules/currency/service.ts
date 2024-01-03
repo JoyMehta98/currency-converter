@@ -9,11 +9,14 @@ export const axiosInstance = axios.create({
 });
 
 export const getCryptoCurrencies = async () => {
-  const response = await axiosInstance.get("v1/cryptocurrency/map", {
-    params: {
-      limit: 100,
-    },
-  });
+  const response = await axiosInstance.get(
+    "v1/cryptocurrency/listings/latest",
+    {
+      params: {
+        limit: 100,
+      },
+    }
+  );
 
   return response.data;
 };

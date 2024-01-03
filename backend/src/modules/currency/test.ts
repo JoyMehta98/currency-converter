@@ -18,9 +18,11 @@ describe("Currency", () => {
 
   describe("Crypto Currency", () => {
     it("returns crypto currencies", async () => {
-      nockRequest.get("/v1/cryptocurrency/map?limit=100").reply(200, {
-        data: mockCryptoData,
-      });
+      nockRequest
+        .get("/v1/cryptocurrency/listings/latest?limit=100")
+        .reply(200, {
+          data: mockCryptoData,
+        });
 
       const res = await request(app).get("/api/currencies/crypto");
 
@@ -29,7 +31,9 @@ describe("Currency", () => {
     });
 
     it("show error logs when crypto currencies api called and throws an error", async () => {
-      nockRequest.get("/v1/cryptocurrency/map?limit=100").reply(500);
+      nockRequest
+        .get("/v1/cryptocurrency/listings/latest?limit=100")
+        .reply(500);
 
       await request(app).get("/api/currencies/crypto");
 
