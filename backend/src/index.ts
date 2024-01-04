@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import { currencyRouter } from "modules/currency/router";
 import { appConfig } from "config/app";
-import { rateLimiter } from "middlewares/rateLimiter";
+// import { rateLimiter } from "middlewares/rateLimiter";
 
 const { port, nodeEnv } = appConfig;
 
@@ -15,7 +15,7 @@ app.get("/api", (_req: Request, res: Response) => {
   res.status(200).send("App is running");
 });
 
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use("/api/currencies", currencyRouter);
 
 const server = app.listen(port, () => {
